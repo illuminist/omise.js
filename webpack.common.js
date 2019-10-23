@@ -7,6 +7,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const CleanPlugin = require('clean-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
 
 /**
  * --------------------------------------------------------
@@ -46,6 +47,9 @@ const config = {
     ],
   },
 
-  plugins: [new CleanPlugin('dist')],
+  plugins: [
+    new CleanPlugin('dist'),
+    new Dotenv(),
+  ],
 }
 module.exports = config
