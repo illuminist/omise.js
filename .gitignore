@@ -58,6 +58,7 @@ jspm_packages/
 .env
 
 dist/
+es/
 *.tgz
 *.zip
 .DS_Store

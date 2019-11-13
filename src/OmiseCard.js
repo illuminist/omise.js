@@ -14,7 +14,7 @@ import {
   isEmpty,
   extractDataFromElement,
   camelCaseToDash,
-} from 'helpers/utils'
+} from './helpers/utils'
 
 export const defaultIframeAppConfig = {
   key: '',

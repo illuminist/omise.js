@@ -16,6 +16,8 @@ const CleanPlugin = require('clean-webpack-plugin')
 const config = {
   entry: './src/index.js',
   output: {
+    library: 'Omise',
+    libraryTarget: 'umd',
     filename: 'omise.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',

@@ -7,14 +7,14 @@ const config = {
     interfaceUrl: 'http://api.lvh.me:3000',
   },
   development: {
-    vaultUrl: 'https://vault-staging.omise.co',
+    vaultUrl: 'https://vault.omise.co',
     cardHost: 'http://localhost:5002',
-    interfaceUrl: 'https://api-staging.omise.co',
+    interfaceUrl: 'https://api.omise.co',
   },
   staging: {
-    vaultUrl: 'https://vault-staging.omise.co',
+    vaultUrl: 'https://vault.omise.co',
     cardHost: 'https://cdn.dev-omise.co',
-    interfaceUrl: 'https://api-staging.omise.co',
+    interfaceUrl: 'https://api.omise.co',
   },
   production: {
     vaultUrl: 'https://vault.omise.co',

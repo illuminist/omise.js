@@ -61,7 +61,7 @@ export default class Omise {
     options.type = type
 
     const url = `${this.config.interfaceUrl}/sources/`
-    fetch(url, {
+    return fetch(url, {
       method: 'post',
       headers: {
         Authorization: `Basic ${auth}`,
@@ -69,36 +69,99 @@ export default class Omise {
       },
       body: JSON.stringify(options),
     })
-      .then(response =>
-        response.json().then(data => callback(response.status, data))
-      )
-      .catch(error => {
-        callback(0, {
-          code: 'create_source_error',
-          error: error.message,
-        })
+      .then(response => Promise.all([response, response.json()]))
+      .then(([response, data]) => {
+        if (callback)
+          callback(response.status, data)
+        else
+          return [response.status, data]
+      })
+      .catch(e => {
+        if (callback)
+          callback(0, {
+            code: 'create_source_error',
+            error: e.message,
+          })
+          return
+        const error = new Error(e.message)
+        error.code = e.code
+        throw error
       })
   }
+
+  // createToken(type, options, callback) {
+  //   const auth = btoa(this.publicKey)
+
+  //   options.type = type
+
+  //   const url = `${this.config.vaultUrl}/tokens/`
+  //   return fetch(url, {
+  //     method: 'post',
+  //     credentials: 'include',
+  //     headers: {
+  //       Authorization: `Basic ${auth}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(options),
+  //   })
+  //     .then(response => Promise.all([response, response.json()]))
+  //     .then(([response, data]) => {
+  //       if (callback)
+  //         callback(response.status, data)
+  //       else
+  //         return [response.status, data]
+  //     })
+  //     .catch(e => {
+  //       if (callback)
+  //         callback(0, {
+  //           code: 'create_source_error',
+  //           error: e.message,
+  //         })
+  //         return
+  //       const error = new Error(e.message)
+  //       error.code = e.code
+  //       throw error
+  //     })
+  // }
 
   createToken(as, attributes, handler) {
     const data = {}
     data[as] = attributes
 
-    this._createRpc(() => {
-      handler(0, {
-        code: 'rpc_error',
-        message: 'unable to connect to provider after timeout',
-      })
-    }).createToken(
-      this.publicKey,
-      data,
-      response => {
-        handler(response.status, response.data)
-      },
-      e => {
-        handler(e.data.status, e.data.data)
+    const promise = new Promise((resolve, reject) =>{
+      this._createRpc(() => {
+        reject([0, {
+          code: 'rpc_error',
+          message: 'unable to connect to provider after timeout',
+        }])
+      }).createToken(
+        this.publicKey,
+        data,
+        response => {
+          resolve([response.status, response.data])
+        },
+        e => {
+          reject([e.data.status, e.data.data])
+        }
+      )
+    })
+    .then(d => {
+      if(handler) {
+        handler(...d)
+      } else {
+        return d
       }
-    )
+    })
+    .catch(e => {
+      if(handler) {
+        handler(...e)
+      } else {
+        const error = new Error(e[1])
+        error.code = e[0]
+        throw error
+      }
+    })
+    if (!handler) return promise
   }
 }
 

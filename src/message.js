@@ -4,7 +4,7 @@
  * -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
  */
 import config from './config'
-import { safeJsonParse } from 'helpers/utils'
+import { safeJsonParse } from './helpers/utils'
 
 export const messageType = {
   CLOSE_IFRAME: 'CLOSE_IFRAME',
