@@ -2,9 +2,9 @@ const env = process.env.NODE_ENV || 'development'
 
 const config = {
   test: {
-    vaultUrl: 'http://vault.lvh.me:4500',
-    cardHost: 'http://localhost:5002',
-    interfaceUrl: 'http://api.lvh.me:3000',
+    vaultUrl: process.env.TEST_VAULT_URL,
+    cardHost: process.env.TEST_CARD_HOST,
+    interfaceUrl: process.env.TEST_INTERFACE_URL,
   },
   development: {
     vaultUrl: 'https://vault.omise.co',
@@ -17,9 +17,9 @@ const config = {
     interfaceUrl: 'https://api.omise.co',
   },
   production: {
-    vaultUrl: 'https://vault.omise.co',
-    cardHost: 'https://cdn.omise.co',
-    interfaceUrl: 'https://api.omise.co',
+    vaultUrl: process.env.PRODUCTION_VAULT_URL,
+    cardHost: process.env.PRODUCTION_CARD_HOST,
+    interfaceUrl: process.env.PRODUCTION_INTERFACE_URL,
   },
 }
 
