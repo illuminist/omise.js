@@ -7,14 +7,14 @@ const config = {
     interfaceUrl: process.env.TEST_INTERFACE_URL,
   },
   development: {
-    vaultUrl: 'https://vault.omise.co',
-    cardHost: 'http://localhost:5002',
-    interfaceUrl: 'https://api.omise.co',
+    vaultUrl: process.env.DEV_VAULT_URL,
+    cardHost: process.env.DEV_CARD_HOST,
+    interfaceUrl: process.env.DEV_INTERFACE_URL,
   },
   staging: {
-    vaultUrl: 'https://vault.omise.co',
-    cardHost: 'https://cdn.dev-omise.co',
-    interfaceUrl: 'https://api.omise.co',
+    vaultUrl: process.env.STAGING_VAULT_URL,
+    cardHost: process.env.STAGING_CARD_HOST,
+    interfaceUrl: process.env.STAGING_INTERFACE_URL,
   },
   production: {
     vaultUrl: process.env.PRODUCTION_VAULT_URL,
